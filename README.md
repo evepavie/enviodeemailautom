@@ -1,3 +1,4 @@
+#passo1- entrar no sistema da empresa com o link:https://drive.google.com/drive/folders/149xknr9JvrlEnhNWO49zPcw0PW5icxga?usp=sharing
 import pyautogui
 import pyperclip
 import time 
