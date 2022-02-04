@@ -1,0 +1,27 @@
+import pandas as pd
+#passo1- importar a base de dados com o link: https://drive.google.com/drive/folders/1T7D0BlWkNuy_MDpUHuBG44kT80EmRYIs?usp=sharing
+tabela = pd.read_csv("telecom_users.csv")
+#passo2- visualizar a base de dados
+
+
+#passo3- tratamento de dados (corrigir os problemas da base de dados)
+#coluna inútil(toda nula)
+tabela = tabela.drop("Codigo", axis=1)# 0-linha 1-coluna
+#valores reconhecidos de forma errada
+print(tabela.info())#totalgasto esta classificado como se fosse object e na verdade é float64
+tabela["TotalGasto"] = pd.to_numeric(tabela["TotalGasto"], errors="coerce")
+#tratar valores vazios 
+tabela = tabela.dropna(how="all", axis=1)#excluir colunas vazias(nulas)
+tabela = tabela.dropna(how="any", axis=0)#excluir linhas vazias(nulas)
+display(tabela)
+
+#passo4- análise inicial
+#como esta sendo distribuido o cancelamento
+print(tabela["Churn"].value_counts())
+print(tabela["Churn"].value_counts(normalize=True).map("{:.1%}".format))
+
+#passo5- análise detalhada dos clientes
+import plotly.express as px
+for coluna in tabela.columns:
+    grafico=px.histogram(tabela, x=coluna, color="Churn")
+    grafico.show()
